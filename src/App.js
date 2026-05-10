@@ -38,17 +38,20 @@ function App() {
       flexDirection: 'column', 
       alignItems: 'center',
       fontFamily: 'Arial',
-      marginTop: '50px'
+      marginTop: '30px',
+      backgroundColor: '#f4f7f6',
+      minHeight: '100vh'
     }}>
       <div style={{ 
         padding: '30px', 
         borderRadius: '10px', 
         boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
         backgroundColor: '#fff',
-        width: '350px',
+        width: '380px',
         textAlign: 'center'
       }}>
         <h2 style={{ color: '#333', marginBottom: '20px' }}>🚀 Fact-Checker Login</h2>
+        
         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <input 
             type="email" 
@@ -91,8 +94,34 @@ function App() {
             Login
           </button>
         </div>
-        <p style={{ fontSize: '12px', color: '#777', marginTop: '15px' }}>
-          Note: If the server is sleeping, first login might take 30-40 seconds.
+
+        {/* --- DEMO CREDENTIALS SECTION --- */}
+        <div style={{ 
+          marginTop: '25px', 
+          padding: '10px', 
+          backgroundColor: '#e9ecef', 
+          borderRadius: '5px',
+          border: '1px solid #dee2e6'
+        }}>
+          <p style={{ margin: '0', fontSize: '13px', color: '#495057' }}>
+            <strong>Demo Login:</strong> karan@test.com <br/>
+            <strong>Password:</strong> 123
+          </p>
+        </div>
+
+        {/* --- SIGNUP GUIDANCE SECTION --- */}
+        <div style={{ marginTop: '20px', textAlign: 'left' }}>
+          <p style={{ fontSize: '12px', color: '#666', lineHeight: '1.5' }}>
+            <strong>Naya account banana hai?</strong><br/>
+            Postman use karke is endpoint par POST request bhejein: <br/>
+            <code style={{ backgroundColor: '#fff3cd', padding: '2px 4px', borderRadius: '3px', fontSize: '11px', display: 'block', marginTop: '5px' }}>
+              {BACKEND_URL}/api/auth/signup
+            </code>
+          </p>
+        </div>
+
+        <p style={{ fontSize: '11px', color: '#999', marginTop: '15px', fontStyle: 'italic' }}>
+          Note: Render free tier takes 30-40s to wake up on first request.
         </p>
       </div>
     </div>

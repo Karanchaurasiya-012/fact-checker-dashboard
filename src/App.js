@@ -1,56 +1,57 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Dashboard from './Dashboard'; // Dashboard ko import kiya
+import Dashboard from './Dashboard'; // Importing Dashboard component
 
-// --- APNA LIVE BACKEND URL ---
+// --- LIVE BACKEND URL ---
 const BACKEND_URL = "https://fact-checker-api-8qgm.onrender.com";
 
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login state track karne ke liye
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
   const handleLogin = async () => {
     try {
-      // ✅ Ab ye seedha Render ke live server par request bhejega
+      // ✅ Requesting the live Render server
       const res = await axios.post(`${BACKEND_URL}/api/auth/login`, { email, password });
       
       alert("Login Successful! 🚀");
       
       localStorage.setItem('token', res.data.token);
-      setIsLoggedIn(true); // Login hote hi Dashboard load ho jayega
+      setIsLoggedIn(true); // Load Dashboard on success
     } catch (err) {
       console.error("Login Error:", err);
-      alert("Login Failed! Please check your credentials or Server wake-up time.");
+      alert("Login Failed! Please check your credentials or allow the server to wake up.");
     }
   };
 
-  // Agar user logged in hai, toh Dashboard dikhao
+  // If user is logged in, show the Dashboard
   if (isLoggedIn) {
     return <Dashboard />;
   }
 
-  // Agar logged in nahi hai, toh Login Form dikhao
+  // If not logged in, show the Login Form
   return (
     <div style={{ 
       padding: '50px', 
       display: 'flex', 
       flexDirection: 'column', 
       alignItems: 'center',
-      fontFamily: 'Arial',
+      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
       marginTop: '30px',
       backgroundColor: '#f4f7f6',
       minHeight: '100vh'
     }}>
       <div style={{ 
-        padding: '30px', 
-        borderRadius: '10px', 
-        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+        padding: '40px', 
+        borderRadius: '12px', 
+        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
         backgroundColor: '#fff',
-        width: '380px',
+        width: '400px',
         textAlign: 'center'
       }}>
-        <h2 style={{ color: '#333', marginBottom: '20px' }}>🚀 Fact-Checker Login</h2>
+        <h2 style={{ color: '#2c3e50', marginBottom: '10px' }}>🚀 Fact-Checker AI</h2>
+        <p style={{ color: '#7f8c8d', fontSize: '14px', marginBottom: '25px' }}>Secure Login to Access Dashboard</p>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <input 
@@ -58,9 +59,10 @@ function App() {
             placeholder="Email Address" 
             style={{ 
               padding: '12px', 
-              borderRadius: '5px', 
-              border: '1px solid #ccc',
-              fontSize: '14px' 
+              borderRadius: '6px', 
+              border: '1px solid #dcdde1',
+              fontSize: '14px',
+              outline: 'none'
             }}
             onChange={(e) => setEmail(e.target.value)} 
           />
@@ -69,9 +71,10 @@ function App() {
             placeholder="Password" 
             style={{ 
               padding: '12px', 
-              borderRadius: '5px', 
-              border: '1px solid #ccc',
-              fontSize: '14px' 
+              borderRadius: '6px', 
+              border: '1px solid #dcdde1',
+              fontSize: '14px',
+              outline: 'none'
             }}
             onChange={(e) => setPassword(e.target.value)} 
           />
@@ -79,49 +82,59 @@ function App() {
             onClick={handleLogin}
             style={{ 
               padding: '12px', 
-              backgroundColor: '#007bff', 
+              backgroundColor: '#3498db', 
               color: 'white', 
               border: 'none', 
               cursor: 'pointer',
-              borderRadius: '5px',
+              borderRadius: '6px',
               fontSize: '16px',
-              fontWeight: 'bold',
-              transition: '0.3s'
+              fontWeight: '600',
+              transition: 'background 0.3s'
             }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#2980b9'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#3498db'}
           >
-            Login
+            Sign In
           </button>
         </div>
 
         {/* --- DEMO CREDENTIALS SECTION --- */}
         <div style={{ 
-          marginTop: '25px', 
-          padding: '10px', 
-          backgroundColor: '#e9ecef', 
-          borderRadius: '5px',
-          border: '1px solid #dee2e6'
+          marginTop: '30px', 
+          padding: '15px', 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '8px',
+          border: '1px solid #e9ecef'
         }}>
-          <p style={{ margin: '0', fontSize: '13px', color: '#495057' }}>
-            <strong>Demo Login:</strong> karan@test.com <br/>
-            <strong>Password:</strong> 123
+          <p style={{ margin: '0', fontSize: '14px', color: '#2d3436' }}>
+            <strong>Demo Credentials</strong><br/>
+            Email: <span style={{ color: '#e67e22' }}>karan@test.com</span><br/>
+            Password: <span style={{ color: '#e67e22' }}>123</span>
           </p>
         </div>
 
         {/* --- SIGNUP GUIDANCE SECTION --- */}
-        <div style={{ marginTop: '20px', textAlign: 'left' }}>
-          <p style={{ fontSize: '12px', color: '#666', lineHeight: '1.5' }}>
-            <strong>Naya account banana hai?</strong><br/>
-            Postman use karke is endpoint par POST request bhejein: <br/>
-            <code style={{ backgroundColor: '#fff3cd', padding: '2px 4px', borderRadius: '3px', fontSize: '11px', display: 'block', marginTop: '5px' }}>
+        <div style={{ marginTop: '25px', textAlign: 'left', borderTop: '1px solid #eee', paddingTop: '15px' }}>
+          <p style={{ fontSize: '12px', color: '#95a5a6', lineHeight: '1.6' }}>
+            <strong>Need a new account?</strong><br/>
+            Send a POST request using Postman to this endpoint: <br/>
+            <code style={{ 
+              backgroundColor: '#f1f2f6', 
+              padding: '6px', 
+              borderRadius: '4px', 
+              fontSize: '11px', 
+              display: 'block', 
+              marginTop: '8px',
+              wordBreak: 'break-all',
+              color: '#c0392b'
+            }}>
               {BACKEND_URL}/api/auth/signup
             </code>
           </p>
         </div>
 
-        <p style={{ fontSize: '11px', color: '#999', marginTop: '15px', fontStyle: 'italic' }}>
-          Note: Render free tier takes 30-40s to wake up on first request.
+        <p style={{ fontSize: '11px', color: '#bdc3c7', marginTop: '20px', fontStyle: 'italic' }}>
+          *Initial login may take up to 40 seconds as the free-tier server wakes up.
         </p>
       </div>
     </div>

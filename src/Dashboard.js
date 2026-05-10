@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// --- APNA LIVE BACKEND URL YAHAN HAI ---
+// --- APNA LIVE BACKEND URL ---
 const API_BASE_URL = "https://fact-checker-api-8qgm.onrender.com";
 
 function Dashboard() {
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState('');
-    const [extractedText, setExtractedText] = useState('');
-    const [claims, setClaims] = useState([]);
+    const [claims, setClaims] = useState([]); // extractedText ko yahan se hata diya gaya hai
 
     // 1. PDF Upload & Extraction
     const handleUpload = async () => {
@@ -19,11 +18,10 @@ function Dashboard() {
 
         try {
             setMessage("⏳ Processing... Extracting claims from PDF.");
-            // Render ka live URL use kar rahe hain
             const res = await axios.post(`${API_BASE_URL}/api/claims/upload`, formData);
             
             setMessage("✅ " + res.data.message);
-            setExtractedText(res.data.text);
+            // setExtractedText call yahan se delete kar di gayi hai
             
             const initialClaims = res.data.claims.map(c => ({
                 text: c,
@@ -44,7 +42,6 @@ function Dashboard() {
             updatedClaims[index] = { ...updatedClaims[index], status: "Verifying..." };
             setClaims(updatedClaims);
 
-            // Render ka live URL use kar rahe hain
             const res = await axios.post(`${API_BASE_URL}/api/claims/verify`, { claimText });
             
             const finalClaims = [...claims];
@@ -84,7 +81,6 @@ function Dashboard() {
         <div style={{ padding: '30px', fontFamily: 'Arial', maxWidth: '1100px', margin: 'auto' }}>
             <h1 style={{ textAlign: 'center', color: '#333' }}>🚀 Fact-Checker Dashboard</h1>
             
-            {/* Upload Section */}
             <div style={{ 
                 border: '2px dashed #007bff', 
                 padding: '30px', 
@@ -119,7 +115,6 @@ function Dashboard() {
 
             {message && <p style={{ fontWeight: 'bold', marginTop: '20px', color: '#0056b3', textAlign: 'center' }}>{message}</p>}
 
-            {/* --- ANALYTICS SUMMARY CARDS --- */}
             {claims.length > 0 && (
                 <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', marginTop: '20px' }}>
                     <div style={{ flex: 1, padding: '15px', backgroundColor: '#f0f7ff', borderRadius: '8px', textAlign: 'center', border: '1px solid #b8daff' }}>
@@ -141,7 +136,6 @@ function Dashboard() {
                 </div>
             )}
 
-            {/* 🔍 Claims Table Section */}
             {claims && claims.length > 0 && (
                 <div style={{ marginTop: '40px' }}>
                     <h3>🔍 Identified Claims (Fact-Check with Gemini AI)</h3>
